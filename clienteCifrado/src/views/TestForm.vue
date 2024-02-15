@@ -1,7 +1,4 @@
 <script>
-
-const secretKey= 'sauceboyz2'
-
 export default {
     data() {
         return {
@@ -26,15 +23,8 @@ export default {
         }
     },
     methods:{
-        craeteToken(){
-            console.log("va a crear el token")
-            const token = jwt.sign(this.form, secretKey);
-            console.log(token);
-            console.log("acá está el token descifrfado",decode(token));
-        },
         printForm(){
-            console.log("este es el form",this.form);
-            this.craeteToken()
+            console.log(this.form);
         }
     }
 
