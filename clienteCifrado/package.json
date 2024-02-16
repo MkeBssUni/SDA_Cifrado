@@ -7,7 +7,16 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+<<<<<<< Updated upstream
     "vue": "^2.7.7"
+=======
+    "bootstrap": "^5.3.2",
+    "bootstrap-vue": "^2.23.1",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "vue": "^2.7.7",
+    "vue-axios": "^3.5.2"
+>>>>>>> Stashed changes
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^2.0.0",

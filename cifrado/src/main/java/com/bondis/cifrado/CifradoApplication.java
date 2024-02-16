@@ -1,13 +1,13 @@
-package com.bondis.backCifrado;
+package com.bondis.cifrado;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackCifradoApplication {
+public class CifradoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackCifradoApplication.class, args);
+		SpringApplication.run(CifradoApplication.class, args);
 	}
 
 }

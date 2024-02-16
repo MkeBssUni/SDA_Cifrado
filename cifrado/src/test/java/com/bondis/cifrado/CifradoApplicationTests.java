@@ -1,10 +1,10 @@
-package com.bondis.backCifrado;
+package com.bondis.cifrado;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackCifradoApplicationTests {
+class CifradoApplicationTests {
 
 	@Test
 	void contextLoads() {
