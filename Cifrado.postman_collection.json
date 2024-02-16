@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "8742e8d5-8d61-47e3-97c6-5fe30315ca39",
+		"name": "Cifrado",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27939903"
+	},
+	"item": [
+		{
+			"name": "Obtener clave pública",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/crypto/publicKey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"crypto",
+						"publicKey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cifrar string",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "cadenaSinCifrar",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/crypto/encrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"crypto",
+						"encrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Decrypt",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "e/JDuMS8SUQAzsEUf5v+PnjwkLrCX+n47+p5PZDrjTfkoxZGh89dYjsXNTjxdtAsGnEISoSq8LclCfYHxt2bpclISKBQZVcWgpVWLlsXtOS3VDQaSZ06imHLy2s5Ch1BTfbyniUPxoDIRWyR5/KLkI7K2gsaEMPoadkVduDimV3oPjNkFCZ01ktoAYCwOQvY96DDcHX9olFjT615SbMZIso8K/SEjdcLUwa+gt+NXf5AZsPRD/85OP4XsHUeXlDkV1h84K8+CStw6gt3KUoCoBeAzRSUcGIZgljtyNC1ZzwRctlXT1CDk+z6/ox/nHQXbFF6wLfSyJoj/jiooxSFjQ==",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/crypto/decrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"crypto",
+						"decrypt"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
