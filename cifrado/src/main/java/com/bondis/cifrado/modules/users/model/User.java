@@ -19,8 +19,22 @@ public class User {
     private Long id;
     private String name;
     @Email
-    private String email;
+    private String username;
     @Column(columnDefinition = "TEXT")
     private String password;
     private String motivation;
+    @Column(columnDefinition = "TEXT")
+    private String key;
+    @Column(columnDefinition = "BOOL default false")
+    private boolean blocked;
+
+    public User(String email, String admin1234) {
+    }
+
+    public void save (UserDto dto){
+        this.name = dto.getName();
+        this.username = dto.getUsername();
+        this.password = dto.getPassword();
+        this.motivation = dto.getMotivation();
+    }
 }
