@@ -1,4 +1,4 @@
-package com.bondis.cifrado;
+package com.bondis.cifrado.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

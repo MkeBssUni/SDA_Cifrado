@@ -1,25 +1,28 @@
 package com.bondis.cifrado.security.entities;
 
+import com.bondis.cifrado.modules.users.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class UserDetailsImp implements UserDetails {
-    private final String email;
+public class UserDetailsImpl implements UserDetails {
+    private final String username;
     private final String password;
     private final String key;
-    private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImp(String email, String password, String key, Collection<? extends GrantedAuthority> authorities) {
-        this.email = email;
+    public UserDetailsImpl(String username, String password, String key) {
+        this.username = username;
         this.password = password;
         this.key = key;
-        this.authorities = authorities;
     }
+    public static UserDetailsImpl build(User user) {
+        return new UserDetailsImpl(user.getUsername(), user.getPassword(),user.getKey());
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null;
     }
 
     @Override
@@ -29,12 +32,7 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
-    }
-
-
-    public String getEmail() {
-        return email;
+        return username;
     }
     public String getKey(){return key;}
 
@@ -45,7 +43,7 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
@@ -55,7 +53,7 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
 }
