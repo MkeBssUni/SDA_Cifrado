@@ -1,7 +1,7 @@
 package com.bondis.cifrado.modules.users.model;
 
+import com.bondis.cifrado.modules.hash.service.HashService;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,6 @@ public class User {
     private String motivation;
     @Column(columnDefinition = "BOOL default false")
     private boolean blocked;
-
 
     public void save (UserDto dto){
         this.name = dto.getName();

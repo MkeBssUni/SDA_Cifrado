@@ -1,12 +1,14 @@
 package com.bondis.cifrado.modules.users.service;
 
 import com.bondis.cifrado.kernel.ResponseApi;
-import com.bondis.cifrado.modules.crypto.service.CryptoService;
 import com.bondis.cifrado.modules.hash.service.HashService;
 import com.bondis.cifrado.modules.users.model.IUserRepository;
 import com.bondis.cifrado.modules.users.model.User;
 import com.bondis.cifrado.modules.users.model.UserDto;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,17 +31,11 @@ public class UserService {
     public ResponseApi<User> save (UserDto dto) throws Exception {
         User newUser = new User();
 
-        //cifrar el dto
-//        dto.setName(hashService.encrypt(dto.getName()));
-//        dto.setUsername(hashService.encrypt(dto.getUsername()));
-//        dto.setPassword(hashService.encrypt(dto.getPassword()));
-//        dto.setMotivation(hashService.encrypt(dto.getMotivation()));
-
         //descifrar la información que viene:
         dto.setName(hashService.decrypt(dto.getName()));
         dto.setUsername(hashService.decrypt(dto.getUsername()));
         dto.setMotivation(hashService.decrypt(dto.getMotivation()));
-        
+
 
         newUser.save(dto);
 
@@ -47,10 +43,18 @@ public class UserService {
 
         newUser.setUsername(hashService.encrypt(newUser.getUsername()));
         newUser.setPassword(hashService.encrypt(newUser.getPassword()));
-        newUser.setName(hashService.encrypt(newUser.getName()));
-        newUser.setMotivation(hashService.encrypt(newUser.getMotivation()));
 
         return new ResponseApi<>(newUser,HttpStatus.OK, false, "Ok");
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseApi<Page<User>> getPaged(Pageable pageable) throws Exception {
+        Page<User> listOfUsers = iUserRepository.findAll(pageable);
+        for(User user: listOfUsers){
+            user.setUsername(hashService.encrypt(user.getUsername()));
+            user.setPassword(hashService.encrypt(user.getPassword()));
+        }
+        return new ResponseApi<>(listOfUsers, HttpStatus.OK,false,"Ok");
     }
 
 }
