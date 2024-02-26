@@ -33,7 +33,6 @@ public class InitialConfig implements CommandLineRunner {
             newUser.setUsername(username);
             newUser.setPassword(encoder.encode(password));
             newUser.setMotivation(motivation);
-            newUser.setKey(cryptoService.getPublicKey());
             iUserRepository.save(newUser);
         }
     }
