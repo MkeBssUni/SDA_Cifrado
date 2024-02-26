@@ -38,7 +38,7 @@ public class AuthService {
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userSigninDto.getUsernameOrEmail(), userSigninDto.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(auth);
             String token = provider.generateToken(auth);
-            SignedDto signedDto = new SignedDto(token, prefix,user.getKey(),user.getId());
+            SignedDto signedDto = new SignedDto(token, prefix,user.getId());
             signedDto.setUserId(user.getId());
 
             return new ResponseEntity<>(new ResponseApi<>(signedDto, HttpStatus.OK, false, "ok"), HttpStatus.OK);

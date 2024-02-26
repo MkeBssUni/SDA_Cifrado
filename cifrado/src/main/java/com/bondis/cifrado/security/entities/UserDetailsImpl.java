@@ -9,15 +9,13 @@ import java.util.Collection;
 public class UserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
-    private final String key;
 
-    public UserDetailsImpl(String username, String password, String key) {
+    public UserDetailsImpl(String username, String password) {
         this.username = username;
         this.password = password;
-        this.key = key;
     }
     public static UserDetailsImpl build(User user) {
-        return new UserDetailsImpl(user.getUsername(), user.getPassword(),user.getKey());
+        return new UserDetailsImpl(user.getUsername(), user.getPassword());
     }
 
     @Override
@@ -34,7 +32,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return username;
     }
-    public String getKey(){return key;}
 
     @Override
     public boolean isAccountNonExpired() {

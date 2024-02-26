@@ -18,18 +18,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Email
     private String username;
     @Column(columnDefinition = "TEXT")
     private String password;
     private String motivation;
-    @Column(columnDefinition = "TEXT")
-    private String key;
     @Column(columnDefinition = "BOOL default false")
     private boolean blocked;
 
-    public User(String email, String admin1234) {
-    }
 
     public void save (UserDto dto){
         this.name = dto.getName();

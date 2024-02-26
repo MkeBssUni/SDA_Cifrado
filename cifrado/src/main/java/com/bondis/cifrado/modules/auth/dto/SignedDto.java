@@ -8,6 +8,5 @@ import lombok.Data;
 public class    SignedDto {
     private String token;
     private String tokenType;
-    private String key;
     private Long userId;
 }
