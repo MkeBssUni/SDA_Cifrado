@@ -28,6 +28,7 @@ public class MainSecurity {
     private static final String[] WHITE_LIST_URL={
             "/api/crypto/**",
             "/api/auth/",
+            "/api/users/**"
     };
 
     private final UserDetailsServiceImpl service;
