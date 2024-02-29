@@ -32,9 +32,10 @@ public class UserService {
         User newUser = new User();
 
         //descifrar la información que viene:
-        dto.setName(hashService.decrypt(dto.getName()));
-        dto.setUsername(hashService.decrypt(dto.getUsername()));
-        dto.setMotivation(hashService.decrypt(dto.getMotivation()));
+        dto.setName(hashService.encrypt(dto.getName()));
+        dto.setUsername(hashService.encrypt(dto.getUsername()));
+        dto.setMotivation(hashService.encrypt(dto.getMotivation()));
+        System.out.println("esto es lo que llega: "+dto.toString());
 
 
         newUser.save(dto);
