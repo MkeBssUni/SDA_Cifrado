@@ -21,6 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final IUserRepository iUserRepository;
+    // Inyecta el servicio de cifrado.
     private final HashService hashService;
 
     @Transactional(readOnly = true)
