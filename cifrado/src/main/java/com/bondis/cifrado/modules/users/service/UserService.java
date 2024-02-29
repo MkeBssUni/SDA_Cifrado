@@ -32,18 +32,15 @@ public class UserService {
         User newUser = new User();
 
         //descifrar la información que viene:
-        dto.setName(hashService.encrypt(dto.getName()));
-        dto.setUsername(hashService.encrypt(dto.getUsername()));
-        dto.setMotivation(hashService.encrypt(dto.getMotivation()));
-        System.out.println("esto es lo que llega: "+dto.toString());
-
+        dto.setName(hashService.decrypt(dto.getName()));
+        dto.setUsername(hashService.decrypt(dto.getUsername()));
+        dto.setMotivation(hashService.decrypt(dto.getMotivation()));
 
         newUser.save(dto);
 
         newUser = iUserRepository.saveAndFlush(newUser);
 
         newUser.setUsername(hashService.encrypt(newUser.getUsername()));
-        newUser.setPassword(hashService.encrypt(newUser.getPassword()));
 
         return new ResponseApi<>(newUser,HttpStatus.OK, false, "Ok");
     }
@@ -51,10 +48,6 @@ public class UserService {
     @Transactional(readOnly = true)
     public ResponseApi<Page<User>> getPaged(Pageable pageable) throws Exception {
         Page<User> listOfUsers = iUserRepository.findAll(pageable);
-        for(User user: listOfUsers){
-            user.setUsername(hashService.encrypt(user.getUsername()));
-            user.setPassword(hashService.encrypt(user.getPassword()));
-        }
         return new ResponseApi<>(listOfUsers, HttpStatus.OK,false,"Ok");
     }
 

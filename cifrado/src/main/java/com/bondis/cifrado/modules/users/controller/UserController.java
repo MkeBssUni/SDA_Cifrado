@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +21,10 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final PasswordEncoder encoder;
     private final HashService hashService;
 
     @PostMapping("/")
     public ResponseEntity<ResponseApi<User>> save (@Validated(UserDto.Save.class) @RequestBody UserDto dto) throws Exception {
-        //dto.setPassword(encoder.encode(hashService.decrypt(dto.getPassword())));
-        dto.setPassword(dto.getPassword());
         ResponseApi<User> responseApi = userService.save(dto);
         return new ResponseEntity<>(responseApi, responseApi.getStatus());
     }

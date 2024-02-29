@@ -87,6 +87,8 @@
 
 <script>
 import instance from "../../../config/axios";
+import { encrypt, decrypt } from "../../../kernel/hash/hashFunctions";
+
 export default {
     data() {
         return {
@@ -121,21 +123,43 @@ export default {
         };
     },
     methods: {
-        async getUsers() {
+        /* async getUsers() {
             try {
                 await instance.get("/users/paged/")
                     .then((response) => {
                         this.users = response.data.data.content;
                         this.users.forEach((user) => {
+                            user.usernameDecrypted = decrypt(user.username);
                             if (user.username.length > 10) {
                                 user.username = user.username.substring(0, 10) + "...";
                             }
-                            user.usernameDecrypted = "ejemplo";
                         });
                     });
 
             } catch (error) {
                 console.log(error);
+            }
+        }, */
+        async getUsers() {
+            try {
+                const response = await instance.get("/users/paged/");
+                this.users = response.data.data.content;
+
+                // Crear un array de promesas usando map para descifrar los usernames
+                const decryptPromises = this.users.map(async (user) => {
+                    // Descifrar el username aquí y actualizar el usuario directamente
+                    user.usernameDecrypted = await decrypt(user.username);
+
+                    if (user.username.length > 10) {
+                        user.username = user.username.substring(0, 10) + "...";
+                    }
+                    return user; // Retornar el usuario actualizado
+                });
+
+                // Esperar a que todas las promesas se resuelvan
+                this.users = await Promise.all(decryptPromises);
+            } catch (error) {
+                console.log('Error al obtener los usuarios:', error);
             }
         },
         validateForm() {
@@ -174,9 +198,20 @@ export default {
             }
             return isValid;
         },
-        saveUser() {
+        async saveUser() {
             if (this.validateForm()) {
-                alert("Formulario válido");
+                
+                this.form.username = await encrypt(this.form.username);
+                this.form.password = await encrypt(this.form.password);
+                this.form.motivation = await encrypt(this.form.motivation);
+                this.form.name = await encrypt(this.form.name);
+
+                await instance.post("/users/", this.form).then((response) => {
+                    console.log(response.data.data);
+                    this.getUsers();
+                }).catch((error) => {
+                    console.log(error);
+                });
                 this.$bvModal.hide("modal-register");
             } else {
                 alert("Favor de llenar los campos requeridos");
