@@ -1,12 +1,14 @@
 <script setup>
-import TestForm from './views/TestForm.vue';
-
+import UserTable from './modules/users/views/UserTable.vue'
+components: {
+  UserTable
+}
 </script>
 
 <template>
   <div id="app">
     <main>
-      <TestForm />
+      <UserTable />
     </main>
   </div>
 </template>
