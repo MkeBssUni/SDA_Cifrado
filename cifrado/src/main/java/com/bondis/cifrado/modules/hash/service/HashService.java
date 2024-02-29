@@ -20,11 +20,11 @@ public class HashService {
     private String secretKey;
     private static final String ALGORITHM = "AES";
 
-    public SecretKey generateSecretKeyFromString(String secretKey) throws Exception {
-        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        keyBytes = Arrays.copyOf(keyBytes, 16);
-        return new SecretKeySpec(keyBytes, ALGORITHM);
-    }
+//    public SecretKey generateSecretKeyFromString(String secretKey) throws Exception {
+//        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+//        keyBytes = Arrays.copyOf(keyBytes, 16);
+//        return new SecretKeySpec(keyBytes, ALGORITHM);
+//    }
 
     public String encrypt(String plaintext) throws Exception {
         SecretKey key = generateSecretKeyFromString();

@@ -1,6 +1,4 @@
 <script>
-import sjcl from 'sjcl';
-
 export default {
     data() {
         return {
@@ -25,67 +23,77 @@ export default {
         }
     },
     methods: {
-        /* encryptData(data) {
-            const password = 'S4AUC3B0YZS3ND0';
-
-            // Función para encriptar un campo
-            const encryptField = (field) => {
-                const encryptedField = sjcl.encrypt(password, String(field), { mode: 'ecb' });
-                const parsedResult = JSON.parse(encryptedField);
-                return parsedResult.ct;
-            };
-
-            const formattedData = {
-                name: encryptField(data.name),
-                email: encryptField(data.email),
-                password: encryptField(data.password),
-                motivation: encryptField(data.motivation),
-            };
-
-            return formattedData;
-        },
-        decryptData(encryptedData) {
-            // Utiliza SJCL para desencriptar los datos
-            const password = 'S4AUC3B0YZS3ND0';
-            const decryptedData = sjcl.decrypt(password, JSON.stringify({ ct: encryptedData, iv: '' }), { mode: 'ecb' });
-
-            return JSON.parse(decryptedData);
-        }, */
-
         async sendData() {
             try {
                 // Encripta los datos antes de enviarlos al backend
-                const encryptedData = this.encryptData(this.form);
-                console.log(encryptedData);
+                const encryptedData = await this.encrypt(this.form.name);
+                console.log("nombre cifrado",encryptedData);
+                const decryptedData = await this.decrypt(encryptedData);
+                console.log("nombre descifrado",decryptedData);
             } catch (error) {
                 console.error('Error al enviar los datos:', error);
             }
         },
-        encryptData(data) {
-            const password = 'S4AUC3B0YZS3ND0';
+        async encrypt(plaintext) {
+            const encoder = new TextEncoder();
+            const keyMaterial = await this.getKeyMaterial();
+            const key = await window.crypto.subtle.importKey(
+                "raw",
+                keyMaterial,
+                { name: "AES-CBC" },
+                false,
+                ["encrypt"]
+            );
+            const iv = new Uint8Array(16); // IV estático (en este ejemplo, todo ceros)
+            const encrypted = await window.crypto.subtle.encrypt(
+                {
+                    name: "AES-CBC",
+                    iv,
+                },
+                key,
+                encoder.encode(plaintext)
+            );
 
-            // Función para encriptar un campo
-            const encryptField = (field) => {
-                const encryptedField = sjcl.encrypt(password, String(field), { mode: 'ecb' });
-                return encryptedField;
-            };
-
-            const formattedData = {
-                name: encryptField(data.name),
-                email: encryptField(data.email),
-                password: encryptField(data.password),
-                motivation: encryptField(data.motivation),
-            };
-
-            return formattedData;
+            return window.btoa(String.fromCharCode.apply(null, new Uint8Array(encrypted)));
         },
-        decryptData(encryptedData) {
-            // Utiliza SJCL para desencriptar los datos
-            const password = 'S4AUC3B0YZS3ND0';
-            const decryptedData = sjcl.decrypt(password, encryptedData);
 
-            // Modifica el resultado para que sea compatible con el backend
-            return JSON.stringify({ ct: decryptedData, iv: '' });
+        async decrypt(ciphertext) {
+            const decoder = new TextDecoder();
+            const keyMaterial = await this.getKeyMaterial();
+            const key = await window.crypto.subtle.importKey(
+                "raw",
+                keyMaterial,
+                { name: "AES-CBC" },
+                false,
+                ["decrypt"]
+            );
+            const iv = new Uint8Array(16); // El mismo IV estático usado para cifrar
+            const encryptedData = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0));
+
+            const decrypted = await window.crypto.subtle.decrypt(
+                {
+                    name: "AES-CBC",
+                    iv,
+                },
+                key,
+                encryptedData
+            );
+
+            return decoder.decode(decrypted);
+        },
+
+        async getKeyMaterial() {
+            const secretKey = 'S4AUC3B0YZS3ND0'; // Clave secreta estática
+            const encoder = new TextEncoder();
+            const hash = await window.crypto.subtle.digest(
+                {
+                    name: "SHA-256",
+                },
+                encoder.encode(secretKey)
+            );
+
+            // Utiliza solo los primeros 128 bits (16 bytes)
+            return new Uint8Array(hash).slice(0, 16);
         },
     }
 
