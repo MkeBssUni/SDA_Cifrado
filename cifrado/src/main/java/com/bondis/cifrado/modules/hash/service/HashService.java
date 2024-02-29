@@ -20,12 +20,6 @@ public class HashService {
     private String secretKey;
     private static final String ALGORITHM = "AES";
 
-//    public SecretKey generateSecretKeyFromString(String secretKey) throws Exception {
-//        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-//        keyBytes = Arrays.copyOf(keyBytes, 16);
-//        return new SecretKeySpec(keyBytes, ALGORITHM);
-//    }
-
     public String encrypt(String plaintext) throws Exception {
         SecretKey key = generateSecretKeyFromString();
         Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -51,32 +45,4 @@ public class HashService {
         // Crear y devolver la SecretKey
         return new SecretKeySpec(keyBytes, "AES");
     }
-
-//    public String encrypt(String plaintext) throws Exception {
-//        SecretKey key = generateSecretKeyFromString();
-//        Cipher cipher = Cipher.getInstance("AES", "SunJCE");
-//        cipher.init(Cipher.ENCRYPT_MODE, key);
-//        byte[] encryptedBytes = cipher.doFinal(plaintext.getBytes());
-//        return Base64.getEncoder().encodeToString(encryptedBytes);
-//    }
-//
-//    public String decrypt(String encryptedText) throws Exception {
-//        SecretKey key = generateSecretKeyFromString();
-//        Cipher cipher = Cipher.getInstance("AES", "SunJCE");
-//        cipher.init(Cipher.DECRYPT_MODE, key);
-//        byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
-//        return new String(decryptedBytes);
-//    }
-
-//    public void main(String[] args) throws Exception {
-//        // Cadena de entrada
-//        String cadenaOriginal = "Hola, esto es una cadena de ejemplo";
-//        // Cifrar la cadena original usando AES
-//        String cadenaCifrada = encrypt(cadenaOriginal);
-//        System.out.println("Cadena cifrada: " + cadenaCifrada);
-//
-//        // Descifrar la cadena cifrada usando AES
-//        String cadenaDescifrada = decrypt(cadenaCifrada);
-//        System.out.println("Cadena descifrada: " + cadenaDescifrada);
-//    }
 }
