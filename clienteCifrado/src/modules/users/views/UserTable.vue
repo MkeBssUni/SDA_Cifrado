@@ -42,13 +42,30 @@ export default {
             fields: [                
                 { key: "name", label: "Nombre" },
                 { key: "username", label: "Usuario" },
+                { key: "usernameDecrypted", label: "Usuario descifrado" },
                 { key: "motivation", label: "Motivacion" }                
             ],
             users: [{}],
         };
     },
     methods: {
-        
+        async getUsers() {
+            try {
+                await instance.get("/users/paged/")
+                 .then((response) => {
+                    this.users = response.data.data.content;                    
+                    this.users.forEach((user) => {
+                        if (user.username.length > 10) {
+                            user.username = user.username.substring(0, 10) + "...";
+                        }
+                        user.usernameDecrypted = "ejemplo";
+                    });
+                });
+
+            } catch (error) {
+                console.log(error);
+            }
+        },
     },
     computed: {
         rows() {
@@ -57,6 +74,7 @@ export default {
     },
     mounted() {
         this.perPage = 5;
+        this.getUsers();
     },
 };
 </script>
