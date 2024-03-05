@@ -25,11 +25,13 @@ public class InitialConfig implements CommandLineRunner {
     }
     @Transactional(rollbackFor = {SQLException.class,Exception.class})
     public void createUser(String name, String username, String password, String motivation) throws Exception {
+        username = hashService.encrypt(username);
+        System.out.println("este es el username: "+username);
         Optional<User> user = iUserRepository.findByUsername(username);
         if (user.isEmpty()) {
             User newUser = new User();
             newUser.setName(name);
-            newUser.setUsername(hashService.encrypt(username));
+            newUser.setUsername(username);
             newUser.setPassword(hashService.encrypt(password));
             newUser.setMotivation(motivation);
             iUserRepository.save(newUser);

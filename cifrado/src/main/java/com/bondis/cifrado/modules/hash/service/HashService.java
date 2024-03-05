@@ -35,7 +35,9 @@ public class HashService {
     }
 
     // Método para cifrar un texto plano, utilizando la clave secreta y el vector de inicialización definidos.
-    public String encrypt(String plaintext) throws Exception {
+    public String encrypt(Object data) throws Exception { //Recibe un objeto como parámetro.
+        // Convierte el objeto a una cadena de texto.
+        String plaintext = convertToString(data);
         // Genera la clave secreta a partir de la cadena proporcionada.
         SecretKey key = generateSecretKeyFromString();
         // Obtiene una instancia del cifrador para el algoritmo especificado.
@@ -63,5 +65,16 @@ public class HashService {
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
         // Retorna el texto plano desencriptado, convirtiendo el arreglo de bytes a una cadena de texto.
         return new String(decryptedBytes, StandardCharsets.UTF_8);
+    }
+
+    // Método privado para convertir un objeto a una cadena de texto, soportando números y cadenas.
+    private String convertToString(Object data) {
+        if (data instanceof Number) { // Si el objeto es un número, lo convierte a cadena.
+            return String.valueOf(data); // Retorna la cadena correspondiente al número.
+        } else if (data instanceof String) { // Si el objeto es una cadena, la retorna tal cual.
+            return (String) data; // Retorna la cadena tal cual.
+        } else {
+            throw new IllegalArgumentException("Tipo de dato no soportado"); // Si el objeto no es un número ni una cadena, lanza una excepción.
+        }
     }
 }

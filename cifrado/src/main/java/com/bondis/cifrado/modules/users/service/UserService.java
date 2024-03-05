@@ -36,6 +36,7 @@ public class UserService {
         dto.setName(hashService.decrypt(dto.getName()));
         dto.setUsername(hashService.decrypt(dto.getUsername()));
         dto.setMotivation(hashService.decrypt(dto.getMotivation()));
+        dto.setFavNumber(Long.parseLong(hashService.decrypt(dto.getFavNumberString())));
 
         newUser.save(dto);
 

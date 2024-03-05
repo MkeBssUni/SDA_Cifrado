@@ -16,10 +16,20 @@ public class UserDto {
     private String password;
     @NotNull(groups = {Save.class})
     private String motivation;
+    private Long favNumber;
+    private String favNumberString;
 
     public interface Save{}
 
+    @Override
     public String toString() {
-        return "UserDto(id=" + this.id + ", name=" + this.name + ", email=" + this.username + ", password=" + this.password + ", motivation=" + this.motivation + ")";
+        return "UserDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", motivation='" + motivation + '\'' +
+                ", favNumber=" + favNumber +
+                '}';
     }
 }

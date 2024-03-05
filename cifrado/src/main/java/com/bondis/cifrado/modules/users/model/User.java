@@ -22,6 +22,7 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String password;
     private String motivation;
+    private Long favNumber;
     @Column(columnDefinition = "BOOL default false")
     private boolean blocked;
 
@@ -30,5 +31,6 @@ public class User {
         this.username = dto.getUsername();
         this.password = dto.getPassword();
         this.motivation = dto.getMotivation();
+        this.favNumber = dto.getFavNumber();
     }
 }

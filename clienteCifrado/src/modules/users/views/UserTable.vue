@@ -64,6 +64,12 @@
                             <b-form-textarea id="motivationForm" v-model.trim="form.motivation"></b-form-textarea>
                         </b-form-group>
                     </b-col>
+                    <b-col cols="12" class="my-2">
+                        <b-form-group label="Número favorito:" label-for="favNumberForm" :state="!showErrors.favNumber"
+                            :invalid-feedback="errorMessages.favNumber">
+                            <b-form-input id="favNumberForm" type="number" v-model.trim="form.favNumber"></b-form-input>
+                        </b-form-group>
+                    </b-col>
                     <b-col cols="6" class="my-2">
                         <b-button block class="mt-4 d-flex justify-content-between align-items-center"
                             variant="outline-success" @click="saveUser()" style="width: 100%;">
@@ -99,7 +105,8 @@ export default {
                 { key: "name", label: "Nombre" },
                 { key: "username", label: "Usuario" },
                 { key: "usernameDecrypted", label: "Usuario descifrado" },
-                { key: "motivation", label: "Motivacion" }
+                { key: "motivation", label: "Motivacion" },
+                { key: "favNumber", label: "Número favorito" },
             ],
             users: [{}],
             form: {
@@ -107,39 +114,26 @@ export default {
                 username: "",
                 password: "",
                 motivation: "",
+                favNumber: null,
+                favNumberString: "",
             },
             errorMessages: {
                 name: "",
                 username: "",
                 password: "",
                 motivation: "",
+                favNumber: "",
             },
             showErrors: {
                 name: false,
                 username: false,
                 password: false,
                 motivation: false,
+                favNumber: false,
             },
         };
     },
     methods: {
-        /* async getUsers() {
-            try {
-                await instance.get("/users/paged/")
-                    .then((response) => {
-                        this.users = response.data.data.content;
-                        this.users.forEach((user) => {
-                            user.usernameDecrypted = decrypt(user.username);
-                            if (user.username.length > 10) {
-                                user.username = user.username.substring(0, 10) + "...";
-                            }
-                        });
-                    });
-
-            } catch (error) {
-                console.log(error);
-            }
-        }, */
         async getUsers() {
             try {
                 const response = await instance.get("/users/paged/");
@@ -205,6 +199,7 @@ export default {
                 this.form.password = await encrypt(this.form.password);
                 this.form.motivation = await encrypt(this.form.motivation);
                 this.form.name = await encrypt(this.form.name);
+                this.form.favNumberString = await encrypt(this.form.favNumber);
 
                 await instance.post("/users/", this.form).then((response) => {
                     console.log(response.data.data);
