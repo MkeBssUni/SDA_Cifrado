@@ -40,8 +40,11 @@ Las capacidades específicas de javax.crypto incluyen:
 Para realizar el cifrado y descifrado en frontend se utiliza la Web Cryptography API (API de Criptografía Web). Es una especificación del World Wide Web Consortium (W3C) que define una interfaz para realizar operaciones criptográficas básicas en aplicaciones web, como:
 
 >> Cifrado
+
 >> Descifrado
+
 >> Firma digital
+
 >> Generación de hashes
 
 La Web Cryptography API está diseñada para ser segura y eficiente, permitiendo a los desarrolladores web integrar funcionalidades criptográficas en sus aplicaciones sin la necesidad de recurrir a plugins o bibliotecas de terceros. Al operar dentro del contexto seguro del navegador, también ayuda a mitigar ciertos tipos de ataques criptográficos y a proteger la información sensible de los usuarios.
